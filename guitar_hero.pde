@@ -90,7 +90,6 @@ void draw() {
   /* bell and whistle: if you have -10 or less score the game ends */
   if (score <= -10) exit();
 }
-// current error: pressing any key other than h early doesn't take away points
 /** runs once when a key is pressed */
 void keyPressed() {
   if (key == 'h') {
