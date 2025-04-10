@@ -1,17 +1,16 @@
 import processing.core.PApplet;
 
-/**
- * @TODO finish Timer
- */
 public class Timer {
 
     /** The time that the Timer was started */
-    long startTime;
+    private long startTime;
     /** Whether or not the timer is currently running */
-    boolean isRunning;
+    private boolean isRunning;
+    /** The time that the Timer was stopped */
+    private long stopTime;
 
     /**
-     * Stars the timer
+     * Starts the timer
      */
     public void start () {
         startTime = System.currentTimeMillis();  // the time in milliseconds
@@ -20,37 +19,46 @@ public class Timer {
 
     /**
      * Stops the timer
-     * @TODO make this stop the timer
      */
     public void stop () {
         isRunning = false;
+        stopTime = System.currentTimeMillis();
     }
 
-    /** @TODO make this actually work
+    /**
      * Resets the timer to 0 and stops it
      */
     public void reset () {
         stop();
-        start();
+        startTime = stopTime;
     }
 
-    /** @TODO this maybe works but if timer is borked check this
+    /**
      * Returns the current value of the timer
      * @return The number of seconds since the timer was started
      */
     public int read () {
-        return (int) (System.currentTimeMillis()-startTime);
+        if (!isRunning)
+            return (int) (stopTime-startTime) / 1000;
+        return (int) (System.currentTimeMillis()-startTime) / 1000;
     }
 
-    /** @TODO do this
+    public boolean isRunning () {
+        return isRunning;
+    }
+
+    /**
      * Draws the current time at the specified location
      * @param p The PApplet to draw on
      * @param x The upper left X coordinate to draw at
      * @param y The upper left Y coordinate to draw at
      */
     public void draw (PApplet p, int x, int y) {
-        p.fill (255,0,0);
+        p.fill (255);
+        p.rect(60,60,150,60);
+        p.fill(0);
         p.textSize (24);
-        p.text ("99", x, y);
+        p.text (read(), x, y);
+        p.fill(255);
     }
 }
