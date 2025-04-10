@@ -1,4 +1,4 @@
-// @TODO STRETCH GOALS: first click always is a 0, variable board sizes and mine counts, add more later when i think of them
+// @TODO STRETCH GOALS: first click always is a 0, variable board sizes and mine counts, pausing, add more later when i think of them
 
 import processing.core.PApplet;
 public class Main extends PApplet {
@@ -55,7 +55,7 @@ public class Main extends PApplet {
     public void mouseClicked () {
         if (mouseButton == LEFT)
             game.leftClick(mouseX, mouseY);
-        if (mouseButton == RIGHT);
-        game.rightClick (mouseX, mouseY);
+        if (mouseButton == RIGHT)
+            game.rightClick (mouseX, mouseY);
     }
 }
