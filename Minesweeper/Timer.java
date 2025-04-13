@@ -36,6 +36,7 @@ public class Timer {
     /**
      * Returns the current value of the timer
      * @return The number of seconds since the timer was started
+     * The divide by 1000 turns milliseconds into normal seconds
      */
     public int read () {
         if (!isRunning)
