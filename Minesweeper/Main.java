@@ -21,7 +21,6 @@ public class Main extends PApplet {
     /**
      * The Processing DRAW
      * Runs over and over and over
-     * @TODO should work? but might not
      */
     public void draw () {
         game.draw (this);
