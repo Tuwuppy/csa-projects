@@ -112,26 +112,16 @@ public class Tile {
             p.rect(x+20, y+5, (size/4)-5, size-10);
             p.fill(255);
         } else {
-            // @TODO remove this
-            if (numberOfSurroundBombs == 0) {
-                p.fill(50,0,0);
-                p.rect(x,y,size,size);
-                p.fill(255);
-            } else if (state == CLOSED && isMine) {
-                p.fill(0,0,50);
-                p.rect(x,y,size,size);
-                p.fill(255);
-            } else {
-                // draw a blank tile
-                p.fill(155);
-                p.rect(x, y, size, size);
-                p.fill(255);
-            }
+            // draw a blank tile
+            p.fill(155);
+            p.rect(x, y, size, size);
+            p.fill(255);
         }
     }
     private void drawCenteredText(PApplet p, int x, int y, int size, String text) {
         p.textSize(50);
         p.textAlign(PConstants.RIGHT);
         p.text(text, x + size-12, y + size-7);
+        p.textAlign(PConstants.LEFT);
     }
 }
