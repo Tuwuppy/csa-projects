@@ -100,13 +100,13 @@ public class MineSweeper {
         timer.reset();
     }
 
-    /** @TODO draw the final object here
+    /**
      * Draws the current state of MineSweeper to the PApplet p
      * @param p The PApplet to display the game on
      */
     public void draw (PApplet p) {
+        p.background (200);
         // go thru r and c to draw each tile in the grid
-        // @TODO finalize position of tiles
         int tileX = 250;
         int tileY = 300;
         for (int r = 0; r < grid.length; r++) {
@@ -121,14 +121,28 @@ public class MineSweeper {
         timer.draw(p, 150, 100);
         //draw flag counter
         p.fill(255);
-        p.rect(300, 50, 400, 125);
+        p.rect(300, 50, 230, 75);
         p.fill(0);
-        p.text(numberOfMines-countFlags() + " flags remaining", 500, 100);
+        p.text(numberOfMines-countFlags() + " bombs remaining", 310, 100);
         p.fill(255);
         // draw restart button
-
-        // check if game is over constantly
-        isGameOver();
+        p.fill(255);
+        p.rect(700, 50, 150, 50);
+        p.fill(0);
+        p.text("Restart", 750, 75);
+        p.fill(255);
+        // check if game is over constantly and draw text if it is
+        p.fill(255);
+        p.rect(400, 175, 200, 50);
+        if (isGameOver().equals("win")) {
+            p.fill(0);
+            p.text("You Win!", 465, 205);
+            p.fill(255);
+        } else if (isGameOver().equals("lose")) {
+            p.fill(0);
+            p.text("You Lose :(", 455, 205);
+            p.fill(255);
+        }
     }
 
     private int countFlags() {
@@ -147,38 +161,26 @@ public class MineSweeper {
      * @return True if there are any revealed mines, or if all non-mines are revealed
      * False otherwise
      */
-    private boolean isGameOver () {
+    private String isGameOver () {
         int revealedCount = 0;
-        int rightFlagCount = 0;
         for (Tile[] temp : grid) {
             for (Tile tile : temp) {
                 if (tile.isOpen() && tile.isMine()) {
-                    // @TODO remove
-                    System.out.println("You Lose");
-                    restart();
-                    return true;
-                } else if (tile.isFlagged() && tile.isMine()) {
-                    rightFlagCount++;
+                    if (timer.isRunning())
+                        timer.stop();
+                    return "lose";
                 } else if (tile.isOpen()) {
                     revealedCount++;
                 }
             }
         }
         if ((grid.length * grid[0].length) - revealedCount == numberOfMines && revealedCount == (grid.length * grid[0].length) - numberOfMines) {
-            System.out.println("You Win");
             if (timer.isRunning())
                 timer.stop();
-            return true;
+            return "win";
         }
 
-        if (rightFlagCount == numberOfMines) {
-            System.out.println("You Win");
-            if (timer.isRunning())
-                timer.stop();
-            return true;
-        }
-
-        return false;
+        return "not over";
     }
 
     /** If opened tile is a 0, instead call this to open all the zeroes around that zero and the ones around that one and so on
@@ -264,7 +266,7 @@ public class MineSweeper {
         }
     }
     // @TODO make an x to r and y to c function
-    /** @TODO add restart button and let it be clicked, also make this work with variable board sizes
+    /** @TODO make this work with variable board sizes
      * Processes a left click by the user at the location x,y
      * Should open a tile, or reset the game, or sweep a valid open location
      * @param x X coordinate mouse location
@@ -284,11 +286,8 @@ public class MineSweeper {
             } else {
                 grid[tileR][tileC].open();
             }
-            if (grid[tileR][tileC].isMine()) {
-                // @TODO end the game here
-                System.out.println("Game Over");
-                restart();
-            }
+        } else if (x <= 850 && x >= 700 && y<= 100 && y >= 50) {
+            restart();
         }
     }
 
@@ -308,7 +307,7 @@ public class MineSweeper {
     }
 
     public boolean isValid (int r, int c) {
-        return r >= 0 && c >= 0 && r < grid.length && c < grid[r].length;
+        return r >= 0 && c >= 0 && r < grid.length && c < grid[r].length && !grid[r][c].isFlagged();
     }
 
 }
